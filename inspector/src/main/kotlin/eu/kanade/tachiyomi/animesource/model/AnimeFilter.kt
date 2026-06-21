@@ -62,6 +62,13 @@ sealed class AnimeFilter<T>(
         )
     }
 
+    abstract class AutoComplete(
+        name: String,
+        val hint: String = "",
+        state: String = "",
+        val suggestions: List<String> = emptyList(),
+    ) : AnimeFilter<String>(name, state)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is AnimeFilter<*>) return false
