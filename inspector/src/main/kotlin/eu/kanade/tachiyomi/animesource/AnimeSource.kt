@@ -71,4 +71,21 @@ interface AnimeSource {
         ReplaceWith("getVideoList"),
     )
     fun fetchVideoList(episode: SEpisode): Observable<List<Video>> = throw IllegalStateException("Not used")
+
+    // KMK -->
+
+    /**
+     * Get all the available related animes for an anime.
+     *
+     * Declared so that sources compiled against extensions-lib 15 can be loaded; the inspector only
+     * reads source metadata and never resolves related animes.
+     *
+     * @since anikku/extensions-lib 15
+     */
+    suspend fun getRelatedAnimeList(
+        anime: SAnime,
+        exceptionHandler: (Throwable) -> Unit,
+        pushResults: suspend (relatedAnime: Pair<String, List<SAnime>>, completed: Boolean) -> Unit,
+    ): Unit = throw IllegalStateException("Not used")
+    // KMK <--
 }

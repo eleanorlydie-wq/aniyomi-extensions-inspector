@@ -247,6 +247,31 @@ abstract class AnimeHttpSource : AnimeCatalogueSource {
      */
     protected abstract fun animeDetailsParse(response: Response): SAnime
 
+    // KMK -->
+    override val supportsRelatedAnimes: Boolean get() = true
+
+    /**
+     * Fetch related animes for an anime from source/site.
+     *
+     * @since anikku/extensions-lib 15
+     */
+    override suspend fun fetchRelatedAnimeList(anime: SAnime): List<SAnime> = throw IllegalStateException("Not used")
+
+    /**
+     * Returns the request for getting the related anime list.
+     *
+     * @since anikku/extensions-lib 15
+     */
+    protected open fun relatedAnimeListRequest(anime: SAnime): Request = throw IllegalStateException("Not used")
+
+    /**
+     * Parses the response from the site and returns a list of related animes.
+     *
+     * @since anikku/extensions-lib 15
+     */
+    protected open fun relatedAnimeListParse(response: Response): List<SAnime> = throw IllegalStateException("Not used")
+    // KMK <--
+
     /**
      * Get all the available episodes for an anime.
      * Normally it's not needed to override this method.

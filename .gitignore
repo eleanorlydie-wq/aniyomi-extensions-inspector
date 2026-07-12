@@ -9,3 +9,6 @@ build
 
 # Cursor, VSCode
 .history
+
+# Android framework APK fetched by AndroidCompat/getAndroid.sh
+AndroidCompat/lib

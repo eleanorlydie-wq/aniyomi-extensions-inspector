@@ -2,6 +2,7 @@ package eu.kanade.tachiyomi.animesource
 
 import eu.kanade.tachiyomi.animesource.model.AnimeFilterList
 import eu.kanade.tachiyomi.animesource.model.AnimesPage
+import eu.kanade.tachiyomi.animesource.model.SAnime
 import rx.Observable
 import tachiyomi.core.util.lang.awaitSingle
 
@@ -78,4 +79,73 @@ interface AnimeCatalogueSource : AnimeSource {
         ReplaceWith("getLatestUpdates"),
     )
     fun fetchLatestUpdates(page: Int): Observable<AnimesPage>
+
+    // KMK -->
+
+    /**
+     * Whether parsing related animes in anime page or extension provide custom related animes request.
+     *
+     * @since anikku/extensions-lib 15
+     */
+    val supportsRelatedAnimes: Boolean get() = false
+
+    /**
+     * Extensions doesn't want to use App's [getRelatedAnimeListBySearch].
+     *
+     * @since anikku/extensions-lib 15
+     */
+    val disableRelatedAnimesBySearch: Boolean get() = false
+
+    /**
+     * Disable showing any related animes.
+     *
+     * @since anikku/extensions-lib 15
+     */
+    val disableRelatedAnimes: Boolean get() = false
+
+    /**
+     * Get all the available related animes for an anime.
+     *
+     * @since anikku/extensions-lib 15
+     */
+    override suspend fun getRelatedAnimeList(
+        anime: SAnime,
+        exceptionHandler: (Throwable) -> Unit,
+        pushResults: suspend (relatedAnime: Pair<String, List<SAnime>>, completed: Boolean) -> Unit,
+    ): Unit = throw IllegalStateException("Not used")
+
+    /**
+     * Get related animes provided by extension.
+     *
+     * @since anikku/extensions-lib 15
+     */
+    suspend fun getRelatedAnimeListByExtension(
+        anime: SAnime,
+        pushResults: suspend (relatedAnime: Pair<String, List<SAnime>>, completed: Boolean) -> Unit,
+    ): Unit = throw IllegalStateException("Not used")
+
+    /**
+     * Fetch related animes for an anime from source/site.
+     *
+     * @since anikku/extensions-lib 15
+     */
+    suspend fun fetchRelatedAnimeList(anime: SAnime): List<SAnime> = throw UnsupportedOperationException("Unsupported!")
+
+    /**
+     * Slit & strip anime's title into separate searchable keywords.
+     *
+     * @since anikku/extensions-lib 15
+     */
+    fun String.stripKeywordForRelatedAnimes(): List<String> = throw IllegalStateException("Not used")
+
+    /**
+     * Get related animes by searching for each keyword from the anime's title.
+     *
+     * @since anikku/extensions-lib 15
+     */
+    suspend fun getRelatedAnimeListBySearch(
+        anime: SAnime,
+        pushResults: suspend (relatedAnime: Pair<String, List<SAnime>>, completed: Boolean) -> Unit,
+    ): Unit = throw IllegalStateException("Not used")
+    // KMK <--
 }
