@@ -144,6 +144,31 @@ abstract class ParsedAnimeHttpSource : AnimeHttpSource() {
      */
     protected abstract fun animeDetailsParse(document: Document): SAnime
 
+    // KMK -->
+
+    /**
+     * Parses the response from the site and returns a list of related animes.
+     *
+     * @since anikku/extensions-lib 15
+     */
+    override fun relatedAnimeListParse(response: Response): List<SAnime> = throw IllegalStateException("Not used")
+
+    /**
+     * Returns the Jsoup selector that returns a list of [Element] corresponding to each related anime.
+     *
+     * @since anikku/extensions-lib 15
+     */
+    protected open fun relatedAnimeListSelector(): String = throw IllegalStateException("Not used")
+
+    /**
+     * Returns an anime from the given element.
+     *
+     * @since anikku/extensions-lib 15
+     * @param element an element obtained from [relatedAnimeListSelector].
+     */
+    protected open fun relatedAnimeFromElement(element: Element): SAnime = throw IllegalStateException("Not used")
+    // KMK <--
+
     /**
      * Parses the response from the site and returns a list of episodes.
      *
